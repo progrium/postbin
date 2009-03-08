@@ -5,3 +5,5 @@ body { font-family: Helvetica,Arial,sans-serif; font-size: smaller;}
 #content { margin: 10px; }
 pre { font-size: larger;}
 ul { padding-left: 20px;}
+#make-form { margin: 20px; text-align: center; margin-right: 80px;}
+#make-form input { font-size: larger;}
