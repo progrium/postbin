@@ -6,6 +6,9 @@ api_version: 1
 handlers:
 - url: /
   script: main.py
+- url: /(.*\.(gif|png|jpg|ico))
+  static_files: static/\1
+  upload: static/(.*\.(gif|png|jpg|ico))
 - url: /static
   static_dir: static
 - url: /.*
