@@ -7,7 +7,7 @@ from models import Bin, Post
 class BinHandler(webapp.RequestHandler):
     def get(self):
         bin = self._get_bin()
-        posts = bin.post_set.order('-created')
+        posts = bin.post_set.order('-created').fetch(50)
         request = self.request
         self.response.out.write(template.render('templates/bin.html', {'bin':bin, 'posts':posts, 'request':request}))
 

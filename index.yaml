@@ -16,7 +16,7 @@ indexes:
   - name: bin
   - name: created
 
-# Used once in query history.
+# Used 4 times in query history.
 - kind: Post
   properties:
   - name: bin
