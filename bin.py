@@ -9,7 +9,7 @@ class BinHandler(webapp.RequestHandler):
         bin = self._get_bin()
         posts = bin.post_set.order('-created')
         request = self.request
-        self.response.out.write(template.render('templates/bin.html', locals()))
+        self.response.out.write(template.render('templates/bin.html', {'bin':bin, 'posts':posts, 'request':request}))
 
     def post(self):
         bin = self._get_bin()
