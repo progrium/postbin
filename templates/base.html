@@ -1,9 +1,16 @@
 <html>
   <head>
-    <title>{% block title %}PostBin{% endblock %}</title>
+    <title>{% block title %}PostBin - Debug web hooks{% endblock %}</title>
+    <link href="/static/style.css" type="text/css" rel="stylesheet" />
   </head>
   <body>
-    <h2>PostBin</h2>
-    {% block content %}{% endblock %}
+    <div id="wrapper">
+      <div id="header">
+        <h1>PostBin</h1>
+      </div>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
   </body>
 </html>

@@ -1,0 +1,7 @@
+body { font-family: Helvetica,Arial,sans-serif; font-size: smaller;}
+#header h1 { display: block; margin: 0;}
+#header { border-bottom: 2px solid darkgreen; padding: 5px; padding-bottom: 1px; background-color: lightgreen;}
+#wrapper { margin-left: auto; margin-right: auto; width: 800px;}
+#content { margin: 10px; }
+pre { font-size: larger;}
+ul { padding-left: 20px;}

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}PostBin - {{ bin.name }}{% endblock %}
 {% block content %}
-  <p>All POST requests to this URL are logged for you to see here.</p>
+  <p>All POST requests to this URL are logged for you to see here, sorted newest to oldest.</p>
   <ul>
     {% for post in posts %}
     <li id="{{ post.id }}">
       <div>
-        <a href="#{{ post.id }}">#{{ post.id }}</a> @ 
+        <a href="#{{ post.id }}" title="A unique ID for this request">#{{ post.id }}</a> @ 
         {{ post.created|time:"H:i" }} {{ post.created|date:"M d Y" }}
         --
         {{ post.remote_addr }} 
