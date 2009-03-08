@@ -44,7 +44,7 @@ class Post(db.Model):
     body = db.TextProperty()
     
     def id(self):
-        return baseN(abs(hash(self.created)), 36)
+        return baseN(abs(hash(self.created)), 36)[0:6]
     
     def __str__(self):
         if self.form_data:
