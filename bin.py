@@ -6,6 +6,8 @@ from models import Bin, Post
 
 class BinHandler(webapp.RequestHandler):
     def get(self):
+        if self.request.path[-1] == '/':
+            self.redirect(self.request.path[:-1])
         bin = self._get_bin()
         posts = bin.post_set.order('-created').fetch(50)
         request = self.request
@@ -22,7 +24,7 @@ class BinHandler(webapp.RequestHandler):
         self.redirect('/%s' % bin.name)
         
     def _get_bin(self):
-        name = self.request.path[1:]
+        name = self.request.path.replace('/', '')
         bin = Bin.all().filter('name =', name).get()
         if bin:
             return bin
