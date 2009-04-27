@@ -23,8 +23,9 @@ class BinHandler(webapp.RequestHandler):
         post.query_string   = self.request.query_string
         post.form_data      = dict(self.request.POST)
         post.put()
-        if 'http://' in post.query_string:
-            urlfetch.fetch(url=post.query_string.replace('http://', 'http://38.99.80.163:9000/'), payload=urllib.urlencode(post.form_data))
+        if 'http://' in self.request.query_string:
+            urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'), 
+                            payload=urllib.urlencode(dict(self.request.POST)), method='POST')
         self.redirect('/%s' % bin.name)
         
     def _get_bin(self):
