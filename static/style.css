@@ -16,6 +16,7 @@ dt {
     clear: left;
     width: 70px;
     font-weight: bold;
+    overflow: hidden;
 }
 dt:after { content: ":"; }
 dd {

@@ -18,7 +18,7 @@
       </div>
       <dl>
         {% for part in post %}
-          <dt>{{ part.0 }}</dt>
+          <dt title="{{ part.0 }}">{{ part.0 }}</dt>
           <dd>{{ part.1 }}</dd>
         {% endfor %}
       </dl>
