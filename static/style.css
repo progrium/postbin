@@ -8,6 +8,18 @@ ul { padding-left: 20px;}
 #make-form { margin: 20px; text-align: center; margin-right: 80px;}
 #make-form input { font-size: larger;}
 
-dl dd {
+dl {
+    padding: 0.5em;
+}
+dt {
+    float: left;
+    clear: left;
+    width: 70px;
+    font-weight: bold;
+}
+dt:after { content: ":"; }
+dd {
+    margin: 0 0 0 80px;
+    padding: 0 0 0.5em 0;
     white-space: pre;
 }
