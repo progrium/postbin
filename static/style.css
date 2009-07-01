@@ -7,3 +7,7 @@ pre { font-size: larger;}
 ul { padding-left: 20px;}
 #make-form { margin: 20px; text-align: center; margin-right: 80px;}
 #make-form input { font-size: larger;}
+
+dl dd {
+    white-space: pre;
+}

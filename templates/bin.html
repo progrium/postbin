@@ -12,7 +12,12 @@
         {{ post.remote_addr }} 
         {% if post.query_string %}?{{ post.query_string }}{% endif %}
       </div>
-      <pre>{{ post }}</pre>
+      <dl>
+        {% for part in post %}
+          <dt>{{ part.0 }}</dt>
+          <dd>{{ part.1 }}</dd>
+        {% endfor %}
+      </dl>
     </li>
     {% endfor %}
   </ul>
