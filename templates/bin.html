@@ -11,6 +11,10 @@
         --
         {{ post.remote_addr }} 
         {% if post.query_string %}?{{ post.query_string }}{% endif %}
+        <!-- Headers:
+             {% for h in post.headers.items %}{{ h.0 }}: {{ h.1 }}
+             {% endfor %}
+          -->
       </div>
       <dl>
         {% for part in post %}
