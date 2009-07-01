@@ -51,14 +51,14 @@ class Post(db.Model):
         if self.form_data:
             for k,v in self.form_data.items():
                 try:
-                    outval = simplejson.dumps(simplejson.loads(v), indent=2)
+                    outval = simplejson.dumps(simplejson.loads(v), sort_keys=True, indent=2)
                 except ValueError:
                     outval = v
                 out.append((k, outval))
         else:
             out = (('body', self.body),)
 
-        return iter(out)
+        return iter(sorted(out))
 
     def __str__(self):
         return '\n'.join("%s = %s" % (k,v) for k,v in self)
