@@ -49,7 +49,11 @@ class Post(db.Model):
     def __iter__(self):
         out = []
         if self.form_data:
-            for k,v in self.form_data.items():
+            if hasattr(self.form_data, 'items'):
+                items = self.form_data.items()
+            else:
+                items = self.form_data
+            for k,v in items:
                 try:
                     outval = simplejson.dumps(simplejson.loads(v), sort_keys=True, indent=2)
                 except ValueError:

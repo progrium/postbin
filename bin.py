@@ -21,13 +21,13 @@ class BinHandler(webapp.RequestHandler):
         post.headers        = dict(self.request.headers)
         post.body           = self.request.body
         post.query_string   = self.request.query_string
-        post.form_data      = dict(self.request.POST)
+        post.form_data      = [[k,v] for k,v in self.request.POST.items()]
         post.put()
         if 'http://' in self.request.query_string:
-            urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'), 
-                            payload=urllib.urlencode(dict(self.request.POST)), method='POST')
+            urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'),
+                            payload=urllib.urlencode(self.request.POST.items()), method='POST')
         self.redirect('/%s' % bin.name)
-        
+
     def _get_bin(self):
         name = self.request.path.replace('/', '')
         bin = Bin.all().filter('name =', name).get()
