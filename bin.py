@@ -25,6 +25,13 @@ class BinHandler(webapp.RequestHandler):
             urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'),
                             payload=urllib.urlencode(self.request.POST.items()), method='POST')
         self.redirect('/%s' % bin.name)
+    
+    def head(self):
+        bin = self._get_bin()
+        if self.request.query_string:
+            self._record_post(bin, True)
+        else:
+            self._record_post(bin)
 
     def _record_post(self, bin, use_get=False):
         post = Post(bin=bin, remote_addr=self.request.remote_addr)
