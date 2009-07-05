@@ -19,8 +19,8 @@
       <table>
         {% for part in post %}
           <tr>
-          <td title="{{ part.0 }}" class="key">{{ part.0 }}</td>
-          <td>{{ part.1 }}</td></tr>
+          <td title="{{ part.0 }}" valign="top" class="key">{{ part.0 }}</td>
+          <td>{% ifequal part.0 "body" %}<pre>{% endifequal %}{{ part.1|escape }}{% ifequal part.0 "body" %}</pre>{% endifequal %}</td></tr>
         {% endfor %}
       </table>
     </li>
