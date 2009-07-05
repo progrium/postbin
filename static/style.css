@@ -5,8 +5,12 @@ body { font-family: Helvetica,Arial,sans-serif; font-size: smaller;}
 #content { margin: 10px; }
 pre { font-size: larger;}
 ul { padding-left: 20px;}
+li { margin-bottom: 10px;}
 #make-form { margin: 20px; text-align: center; margin-right: 80px;}
 #make-form input { font-size: larger;}
+a.headers { font-size: smaller;}
+td { font-size: smaller; }
+td.key { width: 50px; font-weight: bold;}
 
 dl {
     padding: 0.5em;
@@ -16,9 +20,9 @@ dt {
     clear: left;
     width: 70px;
     font-weight: bold;
-    overflow: hidden;
+    overflow: none;
 }
-dt:after { content: ":"; }
+
 dd {
     margin: 0 0 0 80px;
     padding: 0 0 0.5em 0;

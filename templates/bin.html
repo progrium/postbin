@@ -16,12 +16,13 @@
              {% endfor %}
           -->
       </div>
-      <dl>
+      <table>
         {% for part in post %}
-          <dt title="{{ part.0 }}">{{ part.0 }}</dt>
-          <dd>{{ part.1 }}</dd>
+          <tr>
+          <td title="{{ part.0 }}" class="key">{{ part.0 }}</td>
+          <td>{{ part.1 }}</td></tr>
         {% endfor %}
-      </dl>
+      </table>
     </li>
     {% endfor %}
   </ul>
