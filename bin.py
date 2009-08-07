@@ -5,21 +5,25 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import urlfetch
 from models import Bin, Post
 import urllib
+import re
 
 class BinHandler(webapp.RequestHandler):
     def get(self):
-        if self.request.path[-1] == '/':
-            self.redirect(self.request.path[:-1])
-        bin = self._get_bin()
+        path = self.request.path
+        if path[-1] == '/':
+            self.redirect(path[:-1])
+        path, feed = re.subn(r'^(.+)\/feed$', r'\1', path)
+        bin = self._get_bin(path)
         if self.request.query_string:
             self._record_post(bin, True)
             self.redirect('/%s' % bin.name)
         else:
             posts = bin.post_set.order('-created').fetch(50)
-            self.response.out.write(template.render('templates/bin.html', {'bin':bin, 'posts':posts, 'request':self.request}))
+            type = 'atom' if feed else 'html'
+            self.response.out.write(template.render('templates/bin.' + type, {'bin':bin, 'posts':posts, 'request':self.request}))
 
     def post(self):
-        bin = self._get_bin()
+        bin = self._get_bin(self.request.path)
         self._record_post(bin)
         if 'http://' in self.request.query_string:
             urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'),
@@ -27,7 +31,7 @@ class BinHandler(webapp.RequestHandler):
         self.redirect('/%s' % bin.name)
     
     def head(self):
-        bin = self._get_bin()
+        bin = self._get_bin(self.request.path)
         if self.request.query_string:
             self._record_post(bin, True)
         else:
@@ -45,8 +49,8 @@ class BinHandler(webapp.RequestHandler):
         post.form_data      = [[k,v] for k,v in data_source.items()]
         post.put()
 
-    def _get_bin(self):
-        name = self.request.path.replace('/', '')
+    def _get_bin(self, path):
+        name = path.replace('/', '')
         bin = Bin.all().filter('name =', name).get()
         if bin:
             return bin
