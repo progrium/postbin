@@ -16,6 +16,7 @@
     {{ post.id }} @ {{ post.created|time:"H:i" }} {{ post.created|date:"M d Y" }}
     --
     {{ post.remote_addr }}
+    {% if post.query_string %}?{{ post.query_string }}{% endif %}
     </title>
     <link href="{{ request.scheme }}://{{ request.host }}/{{ bin.name }}#{{ post.id }}"/>
     <id>{{ request.url }}#{{ post.id}}</id>
