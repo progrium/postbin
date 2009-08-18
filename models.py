@@ -3,6 +3,7 @@ from google.appengine.ext import db
 from google.appengine.api import datastore_types
 from django.utils import simplejson
 
+
 def baseN(num,b,numerals="0123456789abcdefghijklmnopqrstuvwxyz"): 
     return ((num == 0) and  "0" ) or (baseN(num // b, b).lstrip("0") + numerals[num % b])
     
@@ -42,6 +43,7 @@ class Post(db.Model):
     query_string = db.StringProperty()
     form_data = ObjectProperty()
     body = db.TextProperty()
+    #body_binary = db.BlobProperty()
     
     def id(self):
         return baseN(abs(hash(self.created)), 36)[0:6]
@@ -56,13 +58,21 @@ class Post(db.Model):
             for k,v in items:
                 try:
                     outval = simplejson.dumps(simplejson.loads(v), sort_keys=True, indent=2)
-                except ValueError:
+                except (ValueError, TypeError):
                     outval = v
                 out.append((k, outval))
         else:
             out = (('body', self.body),)
 
-        return iter(sorted(out))
+        # Sort by field/file then by field name
+        files = list()
+        fields = list()
+        for (k,v) in out:
+            if type(v) is dict:
+                files.append((k,v))
+            else:
+                fields.append((k,v))
+        return iter(sorted(fields) + sorted(files))
 
     def __str__(self):
         return '\n'.join("%s = %s" % (k,v) for k,v in self)

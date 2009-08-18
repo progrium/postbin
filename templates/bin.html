@@ -19,8 +19,15 @@
       <table>
         {% for part in post %}
           <tr>
-          <td title="{{ part.0 }}" valign="top" class="key">{{ part.0 }}</td>
-          <td>{% ifequal part.0 "body" %}<pre>{% endifequal %}{{ part.1|escape }}{% ifequal part.0 "body" %}</pre>{% endifequal %}</td></tr>
+          <td title="{{ part.0 }}" valign="top" align="right" class="key">{{ part.0 }}</td>
+          <td>
+            {% if part.1.file_digest %}
+            <img src="http://openicon.appspot.com/{{ part.1.file_extension|default:"text/plain" }}?size=16&default=http%3A%2F%2Fopenicon.appspot.com%2Ftext%2Fplain" style="vertical-align: middle; margin-right: 2px; margin-top: -4px;" /><pre>{{ part.1.file_name }}</pre> ({{ part.1.file_size }}KB)<br />
+            <code>{{ part.1.file_digest}}</code>
+            {% else %}
+              <pre>{{ part.1|escape }}</pre>
+            {% endif %}
+          </td></tr>
         {% endfor %}
       </table>
     </li>
