@@ -31,7 +31,7 @@ class BinHandler(webapp.RequestHandler):
         if 'http://' in self.request.query_string:
             urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'),
                             payload=urllib.urlencode(self.request.POST.items()), method='POST')
-        self.redirect('/%s' % bin.name)
+        self.response.out.write('<html><head><meta http-equiv="refresh" content="0;url=/%s" /></head><body>OK</body></html>' % bin.name)
     
     def head(self):
         bin = self._get_bin(self.request.path)
@@ -69,6 +69,7 @@ class BinHandler(webapp.RequestHandler):
             return bin
         else:
             self.redirect('/')
+
 
 
 if __name__ == '__main__':
