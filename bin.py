@@ -29,9 +29,13 @@ class BinHandler(webapp.RequestHandler):
         self._record_post(bin)
         # TODO: This should maybe be a header thing
         if 'http://' in self.request.query_string:
-            urlfetch.fetch(url=self.request.query_string.replace('http://', 'http://hookah.webhooks.org/'),
-                            payload=urllib.urlencode(self.request.POST.items()), method='POST')
-        self.response.out.write('<html><head><meta http-equiv="refresh" content="0;url=/%s" /></head><body>OK</body></html>' % bin.name)
+            params = dict(self.request.POST.items())
+            params['_url'] = self.request.query_string
+            urlfetch.fetch(url='http://hookah.progrium.com/dispatch',
+                            payload=urllib.urlencode(params), method='POST')
+        self.response.set_status(201)
+        self.response.headers['Location'] = str("/%s" % bin.name)
+        self.response.out.write('<html><head><meta http-equiv="refresh" content="0;url=/%s" /></head><body>201 Created. Redirecting...</body></html>' % bin.name)
     
     def head(self):
         bin = self._get_bin(self.request.path)
@@ -49,17 +53,19 @@ class BinHandler(webapp.RequestHandler):
             #post.body_binary    = self.request.body
             pass
         post.query_string   = self.request.query_string
+        post.form_data = []
         data_source = self.request.GET if use_get else self.request.POST
-        for k in data_source.keys():
-            if isinstance(data_source[k], FieldStorage):
-                file_body = data_source[k].file.read()
-                data_source[k] = {
-                    'file_name': data_source[k].filename,
-                    'file_extension': data_source[k].filename.split('.')[-1],
+        for k,v in data_source.items():
+            if isinstance(v, FieldStorage):
+                file_body = v.file.read()
+                post.form_data.append([k, {
+                    'file_name': v.filename,
+                    'file_extension': v.filename.split('.')[-1],
                     'file_digest': hashlib.md5(file_body).hexdigest(),
                     'file_size': round(len(file_body) / 1024.0, 1),
-                }
-        post.form_data      = [[k,v] for k,v in data_source.items()]
+                }])
+            else:
+                post.form_data.append([k,v])
         post.put()
 
     def _get_bin(self, path):
