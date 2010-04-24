@@ -62,7 +62,10 @@ class Post(db.Model):
                     outval = v
                 out.append((k, outval))
         else:
-            out = (('body', self.body),)
+            try:
+                out = (('body', simplejson.dumps(simplejson.loads(self.body), sort_keys=True, indent=2)),)
+            except (ValueError, TypeError):
+                out = (('body', self.body),)
 
         # Sort by field/file then by field name
         files = list()
