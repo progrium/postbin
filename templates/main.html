@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-  <p>PostBin lets you debug web hooks by capturing and logging the asynchronous requests made when events happen. Make a PostBin and register the URL with a web hook provider. All POST requests to the URL are logged for you to see when you browse to that URL.</p>
+  <p>PostBin lets you debug webhooks by capturing and logging the asynchronous requests made when events happen. Make a PostBin and register the URL with a webhook triggerer. All POST requests to the URL are logged for you to see when you browse to that URL.</p>
   <form id="make-form" method="post">
   <input type="submit" value="Make a PostBin">    
   </form>
+  <a href="/blacklist" style="display: block; float: right; font-size: 10px;">Blacklist</a>
 {% endblock %}

@@ -1,0 +1,5 @@
+blacklist:
+- subnet: 204.236.228.148
+  description: mftkxc - Uploading 2MB/min and pushing over quota - 22 reqs/min - Aug 7 2010
+- subnet: 67.202.28.20
+  description: tenu8x - Posts too big for datastore API - 9 reqs/min - Aug 7 2010

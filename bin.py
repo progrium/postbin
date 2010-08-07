@@ -8,6 +8,9 @@ import urllib
 import re
 import hashlib
 from cgi import FieldStorage
+import logging
+
+class NotFound(Exception): pass
 
 class BinHandler(webapp.RequestHandler):
     def get(self):
@@ -44,6 +47,12 @@ class BinHandler(webapp.RequestHandler):
         else:
             self._record_post(bin)
 
+    def handle_exception(self, exception, debug_mode):
+        if isinstance(exception, NotFound):
+            self.error(404)
+        else:
+            super(BinHandler, self).handle_exception(exception, debug_mode)
+
     def _record_post(self, bin, use_get=False):
         post = Post(bin=bin, remote_addr=self.request.remote_addr)
         post.headers        = dict(self.request.headers)
@@ -55,6 +64,7 @@ class BinHandler(webapp.RequestHandler):
         post.query_string   = self.request.query_string
         post.form_data = []
         data_source = self.request.GET if use_get else self.request.POST
+        post.size = len(post.body) if post.body else 0
         for k,v in data_source.items():
             if isinstance(v, FieldStorage):
                 file_body = v.file.read()
@@ -64,17 +74,18 @@ class BinHandler(webapp.RequestHandler):
                     'file_digest': hashlib.md5(file_body).hexdigest(),
                     'file_size': round(len(file_body) / 1024.0, 1),
                 }])
+                post.size += len(file_body)
             else:
                 post.form_data.append([k,v])
         post.put()
 
     def _get_bin(self, path):
-        name = path.replace('/', '')
+        name = path[1:].split('/')[0]
         bin = Bin.all().filter('name =', name).get()
         if bin:
             return bin
         else:
-            self.redirect('/')
+            raise NotFound()
 
 
 

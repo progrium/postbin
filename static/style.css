@@ -2,16 +2,16 @@ body { font-family: Helvetica,Arial,sans-serif; font-size: smaller;}
 #header h1 { display: block; margin: 0;}
 #header { border-bottom: 2px solid darkgreen; padding: 5px; padding-bottom: 1px; background-color: lightgreen;}
 #wrapper { margin-left: auto; margin-right: auto; width: 800px;}
-#content { margin: 10px; }
+#body { margin: 10px; }
 pre { font-size: larger; display: inline;}
-ul { padding-left: 20px;}
-li { margin-bottom: 20px;}
+.post { margin-bottom: 20px;}
 #make-form { margin: 20px; text-align: center; margin-right: 80px;}
 #make-form input { font-size: larger;}
 a.headers { font-size: smaller;}
 td { font-size: smaller; padding-top: 2px; }
-td.key { width: 75px; font-weight: bold; padding-right: 4px;}
-
+td.key { width: 75px; font-weight: bold; padding-right: 4px; }
+.headers td.key { width: 100px;}
+/*.selected { font-weight: bold; color: black; text-decoration: none;}*/
 
 dl {
     padding: 0.5em;

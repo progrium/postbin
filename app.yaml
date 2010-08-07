@@ -6,6 +6,12 @@ api_version: 1
 handlers:
 - url: /
   script: main.py
+- url: /stats
+  script: main.py
+- url: /tasks.*
+  script: main.py
+- url: /blacklist
+  script: main.py
 - url: /favicon.ico
   static_files: static/favicon.ico
   upload: static/favicon.ico

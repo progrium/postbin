@@ -2,13 +2,15 @@
   <head>
     <title>{% block title %}PostBin - Debug web hooks{% endblock %}</title>
     <link href="/static/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    {% block header %}{% endblock %}
   </head>
   <body>
     <div id="wrapper">
       <div id="header">
         <h1>PostBin</h1>
       </div>
-      <div id="content">
+      <div id="body">
         {% block content %}{% endblock %}
       </div>
     </div>

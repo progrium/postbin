@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% for post in posts %}
+  <p>{{post.size}} in <a href="/{{post.bin.name}}">{{post.bin.name}}</a></p>
+  {% endfor %}
+{% endblock %}

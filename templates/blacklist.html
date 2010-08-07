@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <p>These IPs have been temporarily blacklisted to keep the service in operation.</p>
+  <ul>
+  {% for listed in blacklist %}
+  <li><strong>{{listed.0}}</strong> - Reason: {{listed.1.1}} (added {{listed.1.3}})</li>
+  {% endfor %}
+  </ul>
+  <a href="/">&larr; Home</a>
+{% endblock %}

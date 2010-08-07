@@ -43,6 +43,7 @@ class Post(db.Model):
     query_string = db.StringProperty()
     form_data = ObjectProperty()
     body = db.TextProperty()
+    size = db.IntegerProperty()
     #body_binary = db.BlobProperty()
     
     def id(self):

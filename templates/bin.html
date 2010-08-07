@@ -1,22 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}PostBin - {{ bin.name }}{% endblock %}
+{% block header %}<link href="/{{ bin.name }}/feed" type="application/atom+xml" rel="alternate" title="Feed of PostBin {{ bin.name }}" />{% endblock %}
 {% block content %}
   <p>All POST requests to this URL are logged for you to see here, sorted newest to oldest.</p>
-  <ul>
     {% for post in posts %}
-    <li id="{{ post.id }}">
-      <div>
+      <div class="post">
         <a href="#{{ post.id }}" title="A unique ID for this request">#{{ post.id }}</a> @ 
         {{ post.created|time:"H:i" }} {{ post.created|date:"M d Y" }}
         --
         {{ post.remote_addr }} 
-        {% if post.query_string %}?{{ post.query_string }}{% endif %}
-        <!-- Headers:
-             {% for h in post.headers.items %}{{ h.0 }}: {{ h.1 }}
-             {% endfor %}
-          -->
-      </div>
-      <table>
+        {% if post.query_string %}?{{ post.query_string }}{% endif %}<div style="float: right;"><a href="javascript:void(0)" onclick="$('#content-{{ post.id }}').css('display', 'block');$('#headers-{{ post.id }}').css('display', 'none');$(this).addClass('selected');">Content</a> | <a href="javascript:void(0)" onclick="$('#headers-{{ post.id }}').css('display', 'block');$('#content-{{ post.id }}').css('display', 'none');$(this).addClass('selected');">Headers</a></div>
+
+      <table class="headers" id="headers-{{ post.id }}" style="display: none;">
+        {% for header in post.headers.items %}
+          <tr>
+          <td title="{{ header.0 }}" valign="top" align="right" class="key">{{ header.0 }}</td>
+          <td><pre>{{ header.1|escape }}</pre>
+          </td></tr>
+        {% endfor %}
+      </table>
+      <table id="content-{{ post.id }}">
         {% for part in post %}
           <tr>
           <td title="{{ part.0 }}" valign="top" align="right" class="key">{{ part.0 }}</td>
@@ -30,14 +33,9 @@
           </td></tr>
         {% endfor %}
       </table>
-    </li>
+    </div>
     {% endfor %}
-  </ul>
-  <!--form action="?test" method="post">
-    <input type="hidden" name="foo" value="bar" />
-    <input type="hidden" name="bar" value="baz" />
-    <input type="hidden" name="bar" value="baz two" />
-    <input type="submit" value="Test Post" />
-  </form-->
-  <a href="/">Back Home</a>
+
+  <a href="/">&larr; Home</a>
+  <a href="/{{ bin.name }}/feed" style="display: block; float: right;">Atom Feed</a>
 {% endblock %}
