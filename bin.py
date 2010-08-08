@@ -9,8 +9,10 @@ import re
 import hashlib
 from cgi import FieldStorage
 import logging
+from google.appengine.api.labs import taskqueue
 
 class NotFound(Exception): pass
+
 
 class BinHandler(webapp.RequestHandler):
     def get(self):
@@ -36,6 +38,7 @@ class BinHandler(webapp.RequestHandler):
             params['_url'] = self.request.query_string
             urlfetch.fetch(url='http://hookah.progrium.com/dispatch',
                             payload=urllib.urlencode(params), method='POST')
+        taskqueue.add(url='/tasks/newpost', params={})
         self.response.set_status(201)
         self.response.headers['Location'] = str("/%s" % bin.name)
         self.response.out.write('<html><head><meta http-equiv="refresh" content="0;url=/%s" /></head><body>201 Created. Redirecting...</body></html>' % bin.name)
@@ -90,4 +93,6 @@ class BinHandler(webapp.RequestHandler):
 
 
 if __name__ == '__main__':
-    wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([('/.*', BinHandler)], debug=True))
+    wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([
+        ('/.*', BinHandler),
+        ], debug=True))

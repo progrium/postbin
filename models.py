@@ -25,6 +25,17 @@ class ObjectProperty(db.Property):
     def _deflate(self, value):
         return simplejson.dumps(value)
 
+class App(db.Model):
+    total_posts = db.IntegerProperty(default=0)
+    
+    @classmethod
+    def instance(cls):
+        app = cls.all().get()
+        if not app:
+            app = App()
+            app.put()
+        return app
+
 class Bin(db.Model):
     name = db.StringProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
