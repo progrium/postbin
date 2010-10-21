@@ -43,7 +43,7 @@ class CleanupTask(webapp.RequestHandler):
         assert posts.count()
         try:
             while True:
-                db.delete(posts.fetch(500))
+                db.delete(posts.fetch(100))
                 time.sleep(0.1)
         except DeadlineExceededError:
             self.response.clear()
