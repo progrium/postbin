@@ -3,3 +3,5 @@ blacklist:
   description: mftkxc - Uploading 2MB/min and pushing over quota - 22 reqs/min - Aug 7 2010
 - subnet: 67.202.28.20
   description: tenu8x - Posts too big for datastore API - 9 reqs/min - Aug 7 2010
+- subnet: 67.202.11.14
+  description: 1g6plqt - Too much too quickly and pushed us over quota - 15 reqs/min - October 20 2010

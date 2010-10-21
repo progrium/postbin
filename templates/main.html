@@ -4,9 +4,10 @@
   <form id="make-form" method="post">
   <input type="submit" value="Make a PostBin">    
   </form>
-  <div style="float: right; font-size: 10px; text-align: right;">
-    <a href="http://github.com/progrium/postbin">Source Code</a><br/>
-    <a href="/blacklist">Blacklist</a>
-  </div>
-  <span style="font-size: 10px;">Posts Received:<br />{{app.total_posts}}</span>
+  <div style="float: right; font-size: 10px; text-align: right;">Posts Received:<br />{{app.total_posts}}</div>
+  <ul style="font-size: 10px; padding-left: 10px;">
+    <li><a style="font-weight:bold;" href="http://groups.google.com/group/postbin">Google Group</a> New!</li>
+    <li><a href="http://github.com/progrium/postbin">Source Code</a></li>
+    <li><a href="/blacklist">Blacklist</a></li>
+  </ul>
 {% endblock %}
