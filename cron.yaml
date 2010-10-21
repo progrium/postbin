@@ -1,4 +1,4 @@
 cron:
 - description: cleanup
   url: /tasks/cleanup
-  schedule: every 1 minutes
+  schedule: every 5 minutes
