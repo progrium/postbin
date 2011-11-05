@@ -31,14 +31,14 @@ class BinHandler(webapp.RequestHandler):
 
     def post(self):
         bin = self._get_bin(self.request.path)
-        self._record_post(bin)
+        post = self._record_post(bin)
         # TODO: This should maybe be a header thing
         if 'http://' in self.request.query_string:
             params = dict(self.request.POST.items())
             params['_url'] = self.request.query_string
             urlfetch.fetch(url='http://hookah.progrium.com/dispatch',
                             payload=urllib.urlencode(params), method='POST')
-        taskqueue.add(url='/tasks/newpost', params={})
+        taskqueue.add(url='/tasks/newpost', params={'ip': post.remote_addr, 'size': post.size, 'bin': bin.name})
         self.response.set_status(201)
         self.response.headers['Location'] = str("/%s" % bin.name)
         self.response.out.write('<html><head><meta http-equiv="refresh" content="0;url=/%s" /></head><body>201 Created. Redirecting...</body></html>' % bin.name)
@@ -81,6 +81,7 @@ class BinHandler(webapp.RequestHandler):
             else:
                 post.form_data.append([k,v])
         post.put()
+        return post
 
     def _get_bin(self, path):
         name = path[1:].split('/')[0]

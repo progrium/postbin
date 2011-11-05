@@ -1,6 +1,9 @@
-import time, yaml
+import time
+import yaml
+import datetime
 from google.appengine.ext import db
 from google.appengine.api import datastore_types
+from google.appengine.api import memcache
 from django.utils import simplejson
 
 
@@ -44,7 +47,18 @@ class Bin(db.Model):
     def __init__(self, *args, **kwargs):
         kwargs['name'] = kwargs.get('name', baseN(abs(hash(time.time())), 36))
         super(Bin, self).__init__(*args, **kwargs)
-        
+    
+    @classmethod
+    def get_by_name(cls, name):
+        return Bin.all().filter('name =', name).get()
+    
+    def usage_today_in_bytes(self):
+        day = datetime.datetime.now().day
+        daily_bin_key = 'usage-%s-%s' % (day, self.name)
+        return memcache.get(daily_bin_key) or 0
+    
+    def usage_today_in_megabytes(self):
+        return self.usage_today_in_bytes() / 1048576 
         
 class Post(db.Model):
     bin = db.ReferenceProperty(Bin)

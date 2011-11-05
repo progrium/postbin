@@ -2,7 +2,7 @@
 {% block title %}PostBin - {{ bin.name }}{% endblock %}
 {% block header %}<link href="/{{ bin.name }}/feed" type="application/atom+xml" rel="alternate" title="Feed of PostBin {{ bin.name }}" />{% endblock %}
 {% block content %}
-  <p>All POST requests to this URL are logged for you to see here, sorted newest to oldest.</p>
+  <p>All POST requests to this URL are logged for you to see here, sorted newest to oldest.</p> 
     {% for post in posts %}
       <div class="post">
         <a href="#{{ post.id }}" title="A unique ID for this request">#{{ post.id }}</a> @ 
@@ -35,7 +35,7 @@
       </table>
     </div>
     {% endfor %}
-
+    <p>If over 10MB of data is posted in a day, this bin will be deleted. Current usage today: <strong>{{bin.usage_today_in_megabytes}}MB</strong></p>
   <a href="/">&larr; Home</a>
   <a href="/{{ bin.name }}/feed" style="display: block; float: right;">Atom Feed</a>
 {% endblock %}

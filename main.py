@@ -4,6 +4,8 @@ from google.appengine.ext import webapp, db
 from google.appengine.ext.webapp import template
 from models import Bin, Post, App
 from google.appengine.api import datastore_errors
+from google.appengine.api import memcache
+from google.appengine.api import mail
 from google.appengine.runtime import DeadlineExceededError
 import time, yaml
 
@@ -54,6 +56,24 @@ class NewPostTask(webapp.RequestHandler):
         app = App.instance()
         app.total_posts += 1
         app.put()
+        ip = self.request.get('ip')
+        bin = self.request.get('bin')
+        size = int(self.request.get('size'))
+        day = datetime.datetime.now().day
+        
+        daily_ip_key = 'usage-%s-%s' % (day, ip)
+        daily_ip_usage = memcache.get(daily_ip_key) or 0
+        memcache.set(daily_ip_key, int(daily_ip_usage)+size, time=24*3600)
+        if daily_ip_usage > 500000000: # about 500MB
+            mail.send_mail(sender="progrium@gmail.com", to="progrium@gmail.com",
+                subject="PostBin user IP over quota", body=ip)
+        
+        daily_bin_key = 'usage-%s-%s' % (day, bin)
+        daily_bin_usage = memcache.get(daily_bin_key) or 0
+        memcache.set(daily_bin_key, int(daily_bin_usage)+size, time=24*3600)
+        if daily_bin_usage > 10485760: # 10MB
+            obj = Bin.get_by_name(bin)
+            obj.delete()
 
 if __name__ == '__main__':
     wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([

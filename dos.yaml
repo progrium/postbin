@@ -5,3 +5,5 @@ blacklist:
   description: tenu8x - Posts too big for datastore API - 9 reqs/min - Aug 7 2010
 - subnet: 67.202.11.14
   description: 1g6plqt - Too much too quickly and pushed us over quota - 15 reqs/min - October 20 2010
+- subnet: 107.20.169.236
+  description: IP exceeded 500MB transfer in 24 hours
